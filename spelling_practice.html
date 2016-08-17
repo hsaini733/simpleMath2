@@ -1,0 +1,30 @@
+ <html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<script>
+function showHint(str) {
+    if (str.length == 0) {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET", "http://acadiasystems.ca/projects2016/simpleMath/gethint.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
+</head>
+<body>
+<a href="index_action.html" data-role="button" data-icon="home">Home</a> 
+<p><h1><b>Start typing a name in the input field below:</b></h1></p>
+<form>
+<h2>Word:</h2> <input type="text" onkeyup="showHint(this.value)" style="width:250px;">
+</form>
+<p><h3>Suggestions: <span id="txtHint"></span></h3></p>
+</body>
+</html>

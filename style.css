@@ -1,0 +1,44 @@
+
+h1{
+font-size:42px;
+color:#FF0000;
+}
+
+h2{
+font-size:42px;
+color:#00FF00;
+}
+
+h3{
+font-size:25px;
+color:#0000FF;
+}
+
+input[type=text] {
+    background-color: #3CBC8D;
+    color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding-left: 40px;
+    border: 2px solid red;
+    border-radius: 4px;
+    width:100px;
+    font-size:50px;
+}
+img{
+
+//background-color:blue;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: 1px solid;
+    border-color:red;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    font-weight:bold;
+}

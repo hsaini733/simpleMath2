@@ -1,0 +1,199 @@
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">  
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<!-- script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script !-->  
+<script>
+function $_GET(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace( 
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
+}
+$(document).ready(function(){
+    t1= 1+ Math.floor(Math.random()*10);
+    t2=1+ Math.floor(Math.random()*10);
+    i1=1+ Math.floor(Math.random()*25);
+    $("#div1").html(display_images(t1,1,i1));
+    $("#div2").html(display_images(t2,2,i1));
+    $("#t1").val(t1);
+    $("#t2").val(t2);
+    $("#t3").val("");
+    //var success = $_GET("success");
+    $.ajax({
+  			url: 'http://acadiasystems.ca/projects2016/simpleMath/session.php',
+  		})
+.done(function(data) {
+			var json_obj = $.parseJSON(data);//parse JSON
+            var output="";
+            output+="<h1>" + json_obj.userid + " Has Scored:  " + json_obj.score + "</h1>";
+            $("#result").html(output);
+            output+="</ul>";
+  //alert(data)
+})
+.fail(function() {
+  alert("Ajax failed to fetch data")
+});
+    
+  });
+</script>
+<script language="javascript">
+function transparent(id){
+//alert($(this).css('bgcolor'));
+$("#"+id).css('opacity','0.1');
+//$(this).css("background","#00FF00");
+}
+function display_images(n,p,i1)
+{
+var i;
+var txt= "";
+for(i=0;i<n;i++)
+{
+   var id= p+""+i;
+  txt = txt + "<img src=\'"+"images"+"\/"+i1+".png' id="+id+" onclick='transparent("+id+");' >&nbsp;" ;
+}
+
+return txt;
+
+}
+
+function form_calculate()
+{
+   //alert("Inside method");
+   t1 = document.test.t1.value;
+   t2 = document.test.t2.value;
+   t3 = document.test.t3.value;
+   
+   if( parseInt(t1)+parseInt(t2)==parseInt(t3) )
+   {
+     alert("Correct Answer"+t1+"+"+t2+"="+t3);
+     var success = "y";
+    $.ajax({
+  			url: 'http://acadiasystems.ca/projects2016/simpleMath/session.php',
+  			type: 'GET',
+            data: 'success='+success 
+	})
+	.done(function(data) {
+			var json_obj = $.parseJSON(data);//parse JSON
+            var output="";
+            output+="<h1>" + json_obj.userid + " Has Scored:  " + json_obj.score + "</h1>";
+            $("#result").html(output);
+            output+="</ul>";
+  		//alert(data)
+	})
+	.fail(function() {
+  			alert("Ajax failed to fetch data")
+	});
+     location.reload();
+     return false;
+   }
+   else
+   {
+     alert("Incorrect Answer!!!Correct answer is" +t1+"+"+t2+"="+(parseInt(t1)+parseInt(t2))  );
+     location.reload();
+     return false; 
+    }
+    
+     //return(false); 
+}
+//alert("Hello");
+  $( function() {
+    $( "#dialog" ).dialog({
+      autoOpen: false,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+      hide: {
+        effect: "explode",
+        duration: 1000
+      },
+      close: function(event, ui) {
+          location.reload();
+     }
+      
+    });
+ 
+    $( "#sm" ).on( "click", function() {
+    	
+    t1 = document.test.t1.value;
+   t2 = document.test.t2.value;
+   t3 = document.test.t3.value;
+   
+   if( parseInt(t1)+parseInt(t2)==parseInt(t3) )
+   {
+   	 var success = "y";
+    $.ajax({
+  			url: 'http://acadiasystems.ca/projects2016/simpleMath/session.php',
+  			type: 'GET',
+            data: 'success='+success 
+	})
+	.done(function(data) {
+			var json_obj = $.parseJSON(data);//parse JSON
+            var output="";
+            output+="<h1>" + json_obj.userid + " Has Scored:  " + json_obj.score + "</h1>";
+            $("#result").html(output);
+            output+="</ul>";
+  		//alert(data)
+	})
+	.fail(function() {
+  			alert("Ajax failed to fetch data")
+	});
+     $("#dialog").dialog( "option", "title", "Correct Answer!!!!!" );
+     $("#dialog").html("Correct Answer"+t1+"+"+t2+"="+t3);
+     //sleep(5);
+     //location.reload();
+     //return false;
+   }
+   else
+   {
+   	 $("#dialog").dialog( "option", "title", "INCorrect Answer!!!!!" );
+     $("#dialog").html("Incorrect Answer!!!Correct answer is" +t1+"+"+t2+"="+(parseInt(t1)+parseInt(t2))  );
+     //sleep(5);
+     //location.reload();
+     //return false; 
+    }	
+      
+      $( "#dialog" ).dialog( "open" );
+      
+    });
+  } );
+
+
+</script>
+</head>
+<body>
+<div id="result"></div>
+<a href="index_action.html" data-role="button" data-icon="home">Home</a> 
+<h1>Addition Practice</H1>
+
+<h3>How Much is<h3>
+<form name="test" id="test" onSubmit="//return form_calculate();" >
+<input type = "text" name = "t1" id="t1" disabled>
+<div id="div1"></div>
+<h1>+</h1>
+<input type = "text" name = "t2" id="t2" disabled>
+<div id="div2"></div>
+<h1>=</h1>
+<input type = "text" name = "t3" id="t3">
+<!-- input type="submit" id="submit1" !-->
+
+</form>
+<button id="sm" class="button" value="Check Answer">Check answer</Button>
+
+<div id="dialog" title="Basic Dialog">
+  <p>This is an animated dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+</div>
+</body>
